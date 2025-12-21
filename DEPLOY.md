@@ -1,4 +1,9 @@
-# Budget Beacon Backend
+Switch to Render (Fast & Free)
+Render is also a Cloud platform, and it handles Node.js apps perfectly.
+
+NO credit card needed.
+NO billing errors.
+Live in 3 minutes.# Budget Beacon Backend
 
 ## Quick Deploy to Cloud Run
 
