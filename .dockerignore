@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+*.md
+test_*.js
+verify_*.js
+check_*.js
+*.txt
+.vscode

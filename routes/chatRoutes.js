@@ -11,13 +11,19 @@ router.post('/', async (req, res) => {
 
   try {
     const response = await axios.post(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GOOGLE_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GOOGLE_API_KEY}`,
       {
         contents: [
           {
             parts: [
               {
-                text: prompt
+                text: `You are a helpful, conversational financial assistant. 
+Keep your responses SHORT, concise, and easy to read. 
+Use bullet points where possible. 
+Avoid long paragraphs. 
+Format nicely with Markdown (bold, lists).
+
+User Request: ${prompt}`
               }
             ]
           }
@@ -35,7 +41,8 @@ router.post('/', async (req, res) => {
 
   } catch (err) {
     console.error('Gemini API error:', err.response?.data || err.message);
-    res.status(500).json({ error: 'Gemini API error' });
+    // Fallback Mock Response for Demo
+    res.json({ reply: "I'm currently running in **Demo Mode** (API Key error or quota limit). \n\nI can help you with:\n- Budgeting tips\n- Investment basics\n- Expense tracking help\n\n*What would you like to know?*" });
   }
 });
 

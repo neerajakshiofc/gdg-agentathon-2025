@@ -11,7 +11,7 @@ const auth = (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
 
   try {
-    const decoded = jwt.verify(token, 'your_jwt_secret_key'); // Replace with your real secret
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();
   } catch (err) {
@@ -53,7 +53,7 @@ router.post('/login', async (req, res) => {
     if (!isMatch) return res.status(401).json({ message: "Invalid password" });
 
     // ✅ Create JWT token
-    const token = jwt.sign({ id: user._id }, 'your_jwt_secret_key', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({ message: "Login successful", token, userId: user._id });
   } catch (err) {

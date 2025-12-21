@@ -10,6 +10,7 @@ const planRoutes = require('./routes/planRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const stocksRoutes = require('./routes/stocks'); // ✅ Fixed typo
 const newsRoutes = require('./routes/news'); // ✅ Extracted
+const agentRoutes = require('./routes/agentRoutes'); // ✅ Agentic AI Routes
 
 const app = express();
 
@@ -20,31 +21,7 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
-// Temporary in-memory user store (for testing/demo)
-const users = [];
-
-// Register route
-app.post("/api/register", (req, res) => {
-  const { email, password } = req.body;
-  const userExists = users.find((u) => u.email === email);
-  if (userExists) {
-    return res.status(400).json({ message: "User already exists" });
-  }
-  users.push({ email, password });
-  res.status(201).json({ message: "User registered successfully" });
-});
-
-// Login route
-app.post("/api/login", (req, res) => {
-  const { email, password } = req.body;
-  const user = users.find((u) => u.email === email && u.password === password);
-
-  if (user || (email === 'test@example.com' && password === '123456')) {
-    return res.json({ message: "Login successful" });
-  } else {
-    return res.status(401).json({ message: "Invalid credentials" });
-  }
-});
+// Auth routes are handled by authRoutes
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -54,6 +31,7 @@ app.use('/api/plan', planRoutes);
 app.use('/api/chat', chatRoutes);
 app.use(stocksRoutes);
 app.use('/', newsRoutes);
+app.use('/api/agent', agentRoutes);
 
 // JSON error handler
 app.use((err, req, res, next) => {
@@ -65,7 +43,7 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
